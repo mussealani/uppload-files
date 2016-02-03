@@ -52,7 +52,7 @@ $get->exists('GET');
 $current_path = $get->get('upload_dir');
 
   // Define the folder directory that will hold the content
-  $container = $main_path['basedir'] . '/upload_dir';
+$container = $main_path['basedir'] . '/upload_dir';
 
 // Create upload_dir folder to hold the documents that will be uploaded
 if (!file_exists($container)) {
