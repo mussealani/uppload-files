@@ -50,6 +50,7 @@ $get = new Post_Get();
 // Check if GET variable has value
 $get->exists('GET');
 $current_path = $get->get('upload_dir');
+$countries = $get->get('countries');
 
   // Define the folder directory that will hold the content
 $container = $main_path['basedir'] . '/upload_dir';
@@ -69,26 +70,75 @@ $current_dir = scandir($main_path['basedir'] . '/upload_dir/' . $current_path);
 // Wrap the retusts in unordered list
 $html .= "<ul>";
 
-  // Loop throught current folder
-  foreach ($current_dir as $file) {
+if ($current_dir) {
 
-    if (stripos($file, '.') !== 0) {
-      if (strpos($file, '.html') > -1) {
-          $html .= '<li><a href="' . $current_url . $current_path . '/' . $file . '">' . $file . '</a></li>';
-        }else{
+  // $tags = get_tags( );
+  // echo "<pre>";
+  // print_r($tags);
 
-          $html .= '<li><a href="?upload_dir=' . $current_path . '/' . $file . '">' . $file . '</a></li>';
-        }
-      }
+  $categories = get_categories(['child_of' => 7]);
+  foreach ($categories as $category) {
+    // if (!in_array($category->name, $current_dir)) {
+      //array_push($current_dir, $category->slug);
+      // $cat_link = get_category_link($category->cat_ID);
+
+      // $html .= "<li><a href=" . $cat_link . ">" . $category->slug . "</a></li><br>";
+
+if (!file_exists($container . '/' . $category->name )) {
+
+    mkdir($container . '/' . $category->name , 0755, true);
+}
+
+        query_posts('category_name=' . $category->name);
+        global $post;
+        if (have_posts()) : while (have_posts()) : the_post();
+           if($terms = wp_get_post_terms($post->ID)){
+              foreach ($terms as $term) {
+                if (!file_exists($container . '/' . $category->name  . '/' . $term->name)) {
+
+                    mkdir($container . '/' . $category->name  . '/' . $term->name , 0755, true);
+                }
+              }
+           }
+        endwhile; endif;
+        wp_reset_query();
+
+      // echo "<pre>";
+      // print_r($category);
+
+              }
+          }
+      // }
+
+        // $diff = array_diff($categories->cat_name, $current_dir);
+        // print_r($diff);
+
+
+          // Loop throught current folder
+          foreach ($current_dir as $file) {
+            if (stripos($file, '.') !== 0 && $file !== $category->slug) {
+
+              if (stripos($file, '.html') > -1) {
+                  $html .= '<li><a href="' . $current_url . $current_path . '/' . $file . '">' . $file . '</a></li>';
+
+                }else{
+
+                  $html .= '<li><a href="?upload_dir=' . $current_path . '/' . $file . '">' . $file . '</a></li>';
+
+     }
+
   }
+}
+
 
 $html .= '</ul>';
-
-
 
   return $html;
 }
 
+
 //add_filter('the_content', 'file_upload');
 
 add_shortcode( 'upploaded_documents', 'file_upload');
+
+
