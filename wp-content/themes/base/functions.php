@@ -36,12 +36,7 @@ function enqueueJavaScripts() {
     ),
     'mainjs' => array(
       'src' => '/js/main.js', // the file itself
-      'deps' => array('jquery-core','classesjs'), // the file dependencies
-    ),
-    'classesjs' => array(
-      'src' => '/js/classes.js', // the file itself
       'deps' => array('jquery-core'), // the file dependencies
-      'in_footer' => true
     ),
     'localStorage' => array(
       'src' => '/js/localStorage.js', // the file itself
