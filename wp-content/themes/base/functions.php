@@ -12,7 +12,7 @@ function setupTheme() {
   if (!current_user_can('edit_posts')) {
     show_admin_bar( false );
   } else {
-    show_admin_bar( true );
+    show_admin_bar( true );  
   }
 
   //add theme support for menus
@@ -36,28 +36,12 @@ function enqueueJavaScripts() {
     ),
     'mainjs' => array(
       'src' => '/js/main.js', // the file itself
-      'deps' => array('jquery-core'), // the file dependencies
-    ),
-    'localStorage' => array(
-      'src' => '/js/localStorage.js', // the file itself
-      'deps' => array(), // the file dependencies
-      'in_footer' => true
-    ),
-    'bootstrapNavMenu' => array(
-      'src' => '/js/bootstrapNavMenu.js', // the file itself
-      'deps' => array('jquery-core'), // the file dependencies
-      'in_footer' => true
-    ),
-      'headtacular' => array(
-      'src' => '/js/libs/jquery.headtacular.js', // the file itself
-      'deps' => array('jquery-core'), // the file dependencies
-      'in_footer' => true
+      'deps' => array('jquery-core') // the file dependencies
     ),
     /* keep adding them...
     'funnyScript2' => array(
       'src' => '/js/funnyScript2.js', // the file itself
       'deps' => array('bootstrapjs') // the file dependencies
-
     ),
     */
   );
@@ -70,7 +54,7 @@ function enqueueJavaScripts() {
     /* example:
       wp_enqueue_script('bootstrapjs', 'js/libs/bootstrap.js', array('jquery-core'));
     */
-    wp_enqueue_script($key, THEME_ROOT . $file['src'], $file['deps'], $file['in_footer']);
+    wp_enqueue_script($key, THEME_ROOT . $file['src'], $file['deps']);
   }
 }
 // add our function to the wordpress boot cycle
